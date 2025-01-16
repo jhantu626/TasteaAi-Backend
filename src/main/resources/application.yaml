@@ -1,11 +1,8 @@
-server:
-  port: 9096
-
 spring:
+  profiles:
+    active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/TasteaAi
-    username: root
-    password: pritam@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
       hibernate:
@@ -13,3 +10,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  application:
+    name: TasteaAi
+
+
+gemini:
+  apiKey: AIzaSyAQ71ApeB3SFCRaZzK7f4G54p9SwRXtgXs

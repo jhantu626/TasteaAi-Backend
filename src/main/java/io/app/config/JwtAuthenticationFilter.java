@@ -1,6 +1,8 @@
 package io.app.config;
 
 import io.app.service.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,12 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String token;
         final String email;
 
-        if (authHeader==null || !authHeader.startsWith("Bearer ")){
-            filterChain.doFilter(request,response);
+        if (authHeader==null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
             return;
         }
 
         token=authHeader.substring(7);
+
+
         email=jwtService.extractUsername(token);
 
         if(email!=null && SecurityContextHolder.getContext().getAuthentication()==null){

@@ -1,6 +1,7 @@
 package io.app.exception;
 
 import io.app.dto.ApiResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.experimental.StandardException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,15 @@ public class GlobalExceptionHandler {
         return ApiResponse.builder()
                 .status(false)
                 .message(exception.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.GONE)
+    public ApiResponse handleExpiredJwtException(Exception ex){
+        return ApiResponse.builder()
+                .message("Token Expired")
+                .status(false)
                 .build();
     }
 

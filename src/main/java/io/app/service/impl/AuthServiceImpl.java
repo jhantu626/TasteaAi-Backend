@@ -44,25 +44,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseToken login(AuthBody authBody) {
-        boolean isRegisters=repository.existsByEmail(authBody.getEmail());
-        if(!isRegisters){
-            throw new ResourceNotFoundException("Invalid Email");
-        }
-        try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            authBody.getEmail(),
-                            authBody.getPassword()
-                    )
-            );
-        }catch (Exception e){
-            throw new ResourceNotFoundException("Invalid Credentials");
-        }
-
         User user=repository.findByEmail(authBody.getEmail())
-                .orElseThrow(()->new ResourceNotFoundException("Invalid Email"));
+                .orElseThrow(()->new ResourceNotFoundException("User is not registered"));
+        boolean isPasswordMatched=passwordEncoder.matches(authBody.getPassword(),user.getPassword());
+        if(!isPasswordMatched){
+            throw new DuplicateFoundException("Wrong Password!");
+        }
         String token=jwtService.generateToken(user);
-
         return ResponseToken.builder()
                 .token(token)
                 .status(true)

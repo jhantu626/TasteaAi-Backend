@@ -16,16 +16,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf->csrf.disable())
-                .authorizeHttpRequests(auth->auth.requestMatchers("/api/v1/auth/**","/**")
+                .authorizeHttpRequests(auth->auth.requestMatchers("/api/v1/auth/**","/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**","/api/v1/ai/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
