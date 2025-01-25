@@ -1,5 +1,6 @@
 package io.app.controller;
 
+import io.app.dto.ApiResponse;
 import io.app.dto.AuthBody;
 import io.app.dto.ResponseToken;
 import io.app.service.impl.AuthServiceImpl;
@@ -22,6 +23,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ResponseToken> login(@RequestBody AuthBody authBody){
         return ResponseEntity.ok(service.login(authBody));
+    }
+
+    @DeleteMapping
+    public ApiResponse deleteAllUser(){
+        return service.deleteAllUser();
     }
 
 }

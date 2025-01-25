@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private String email;
     private String mobile;
     private String password;
-    private Role role;
+    private Role role=Role.USER;
     private String profilePicture;
     private Date createdAt;
     private Date updatedAt;
@@ -36,7 +36,7 @@ public class User implements UserDetails {
     @PrePersist
     public void preCreate(){
         this.createdAt=new Date();
-        this.updatedAt=new Date();
+        this.role=Role.USER;
     }
 
     @PreUpdate

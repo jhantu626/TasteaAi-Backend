@@ -56,4 +56,12 @@ public class AuthServiceImpl implements AuthService {
                 .status(true)
                 .build();
     }
+
+    public ApiResponse deleteAllUser() {
+        repository.deleteAll();
+        return ApiResponse.builder()
+                .message("Deleted All")
+                .status(true)
+                .build();
+    }
 }
